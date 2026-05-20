@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LoanSentry AI - Advanced two-stage machine learning system for instant credit decisioning and loan amount recommendations.">
+    <title>LoanSentry AI | Credit Evaluation & Recommended Amount Engine</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="background-decorations">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">
+                <i class="fa-solid fa-shield-halved logo-icon"></i>
+                <h1>LoanSentry <span>AI</span></h1>
+            </div>
+            <p class="subtitle">Two-Stage Intelligent Credit Decisioning & Recommendation Engine</p>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="workspace-grid">
+            <!-- Left Panel: Input Form -->
+            <section class="form-card-wrapper">
+                <div class="glass-card form-card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-file-invoice-dollar card-icon"></i>
+                        <h2>Credit Application Details</h2>
+                    </div>
+                    
+                    <form id="loan-application-form">
+                        <!-- Step 1: Demographics -->
+                        <div class="form-section">
+                            <h3 class="section-title"><i class="fa-solid fa-user-tie"></i> Applicant Demographics</h3>
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label for="no_of_dependents">Dependents</label>
+                                    <input type="number" id="no_of_dependents" name="no_of_dependents" value="1" min="0" max="10" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="education">Education</label>
+                                    <select id="education" name="education" required>
+                                        <option value="Graduate" selected>Graduate</option>
+                                        <option value="Not Graduate">Not Graduate</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label for="self_employed">Self Employed</label>
+                                    <select id="self_employed" name="self_employed" required>
+                                        <option value="No" selected>No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Financials -->
+                        <div class="form-section">
+                            <h3 class="section-title"><i class="fa-solid fa-coins"></i> Financial Profile</h3>
+                            <div class="input-grid-2">
+                                <div class="input-group">
+                                    <label for="income_annum">Annual Income (₹)</label>
+                                    <div class="currency-input">
+                                        <span class="currency-symbol">₹</span>
+                                        <input type="number" id="income_annum" name="income_annum" value="1200000" min="50000" step="50000" required>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label for="loan_term">Repayment Term (Months)</label>
+                                    <input type="number" id="loan_term" name="loan_term" value="12" min="2" max="360" required>
+                                </div>
+                            </div>
+                            <div class="input-group cibil-container">
+                                <div class="cibil-header">
+                                    <label for="cibil_score">CIBIL Credit Score</label>
+                                    <span id="cibil-val-display" class="badge score-excellent">820</span>
+                                </div>
+                                <div class="range-slider-wrapper">
+                                    <input type="range" id="cibil_score" name="cibil_score" min="300" max="900" value="820" class="range-slider">
+                                    <div class="range-markers">
+                                        <span>300</span>
+                                        <span>550</span>
+                                        <span>700</span>
+                                        <span>800</span>
+                                        <span>900</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Assets Portfolio -->
+                        <div class="form-section">
+                            <h3 class="section-title"><i class="fa-solid fa-wallet"></i> Assets Portfolio Value (₹)</h3>
+                            <div class="input-grid-2">
+                                <div class="input-group">
+                                    <label for="residential_assets_value">Residential Assets</label>
+                                    <input type="number" id="residential_assets_value" name="residential_assets_value" value="2000000" min="0" step="50000" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="commercial_assets_value">Commercial Assets</label>
+                                    <input type="number" id="commercial_assets_value" name="commercial_assets_value" value="500000" min="0" step="50000" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="luxury_assets_value">Luxury Assets</label>
+                                    <input type="number" id="luxury_assets_value" name="luxury_assets_value" value="0" min="0" step="50000" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="bank_asset_value">Bank Assets (Cash/Balance)</label>
+                                    <input type="number" id="bank_asset_value" name="bank_asset_value" value="550000" min="0" step="50000" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="submit-btn" class="glow-button">
+                            <span class="btn-text">Analyze Application</span>
+                            <span class="btn-loader hidden"><i class="fa-solid fa-circle-notch fa-spin"></i> Processing...</span>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Right Panel: Results Dashboard -->
+            <section class="results-card-wrapper">
+                <div class="glass-card results-card empty-state" id="results-card">
+                    
+                    <!-- Pre-submission Placeholder state -->
+                    <div class="results-placeholder" id="placeholder-view">
+                        <div class="radar-scan">
+                            <i class="fa-solid fa-radar logo-icon"></i>
+                        </div>
+                        <h3>Awaiting Decision Analysis</h3>
+                        <p>Submit the credit application details to run the dual-stage predictive validation engine.</p>
+                    </div>
+
+                    <!-- Post-submission Results state -->
+                    <div class="results-content hidden" id="results-view">
+                        <div class="decision-header">
+                            <div class="decision-badge" id="decision-badge">
+                                <i id="decision-icon" class="fa-solid fa-circle-check"></i>
+                                <span id="decision-text">APPROVED</span>
+                            </div>
+                            <p class="status-summary" id="status-summary">Based on the predictive evaluation, the applicant is qualified for the loan.</p>
+                        </div>
+
+                        <div class="metrics-grid">
+                            <!-- Circular Gauge for Probability -->
+                            <div class="metric-box">
+                                <h4>Approval Confidence</h4>
+                                <div class="circular-progress-container">
+                                    <svg class="progress-ring" width="120" height="120">
+                                        <circle class="progress-ring-circle-bg" stroke="rgba(255,255,255,0.05)" stroke-width="8" fill="transparent" r="50" cx="60" cy="60" />
+                                        <circle class="progress-ring-circle" id="probability-ring" stroke="var(--accent-teal)" stroke-width="8" stroke-dasharray="314.16" stroke-dashoffset="314.16" fill="transparent" r="50" cx="60" cy="60" />
+                                    </svg>
+                                    <div class="progress-val-text"><span id="probability-val">94.5</span>%</div>
+                                </div>
+                            </div>
+
+                            <!-- Numeric Card for Recommended Amount -->
+                            <div class="metric-box recommended-amount-box" id="amount-box">
+                                <h4>Recommended Loan Amount</h4>
+                                <div class="amount-display-wrapper">
+                                    <span class="currency-symbol">₹</span>
+                                    <span class="amount-number" id="recommended-amount-val">12,50,000</span>
+                                </div>
+                                <p class="amount-subtitle" id="amount-subtitle">Stage 2 Regressor recommendation</p>
+                            </div>
+                        </div>
+
+                        <!-- Details Table -->
+                        <div class="evaluation-details">
+                            <h4>Risk Score Summary</h4>
+                            <div class="table-container">
+                                <table class="details-table">
+                                    <tbody>
+                                        <tr>
+                                            <td><i class="fa-solid fa-gauge-high"></i> CIBIL Assessment</td>
+                                            <td id="table-cibil" class="right-align font-bold text-green">Good (820)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fa-solid fa-chart-line"></i> Income Ratio</td>
+                                            <td id="table-income-ratio" class="right-align">₹12,00,000 / annum</td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fa-solid fa-building-columns"></i> Total Assets Valuation</td>
+                                            <td id="table-total-assets" class="right-align font-bold">₹30,50,000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Disclaimer -->
+                        <div class="disclaimer">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <span>This is an automated decision recommendation. Final loan terms are subject to standard credit risk verification.</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>&copy; 2026 LoanSentry AI. Powered by Scikit-Learn Random Forest Ensemble & FastAPI.</p>
+        </footer>
+    </div>
+    <!-- Custom Interactivity Script -->
+    <script src="/static/script.js"></script>
+</body>
+</html>
